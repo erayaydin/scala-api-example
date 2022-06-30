@@ -6,6 +6,10 @@ val Slf4jVersion = "1.7.36"
 val FlywayVersion = "8.5.12"
 val AkkaHttpCorsVersion = "1.1.3"
 val PostgreDriverVersion = "42.3.6"
+val JwtVersion = "5.0.0"
+val CirceVersion = "0.14.2"
+val AkkaHttpCirceSupportVersion = "1.39.2"
+val HasherVersion = "1.2.2"
 
 lazy val root = (project in file("."))
   .settings(
@@ -42,10 +46,18 @@ lazy val root = (project in file("."))
       "org.slf4j" % "slf4j-nop" % Slf4jVersion,
 
       // CORS support
-      "ch.megard" %% "akka-http-cors" % AkkaHttpCorsVersion
+      "ch.megard" %% "akka-http-cors" % AkkaHttpCorsVersion,
+
+      // Hashing
+      "com.outr" %% "hasher" % HasherVersion,
+
+      // JWT
+      "com.pauldijou" %% "jwt-core" % JwtVersion,
+
+      // JSON
+      "io.circe" %% "circe-core" % CirceVersion,
+      "io.circe" %% "circe-generic" % CirceVersion,
+      "io.circe" %% "circe-parser" % CirceVersion,
+      "de.heikoseeberger" %% "akka-http-circe" % AkkaHttpCirceSupportVersion,
     )
   )
-
-unmanagedResourceDirectories in Compile += {
-  baseDirectory.value / "src/main/resources"
-}

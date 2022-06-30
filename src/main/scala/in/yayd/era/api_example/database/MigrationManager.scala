@@ -1,7 +1,6 @@
 package in.yayd.era.api_example.database
 
 import org.flywaydb.core.Flyway
-import org.flywaydb.core.api.output.MigrateOutput
 import scala.jdk.CollectionConverters._
 
 class MigrationManager (jdbcURL: String, username: String, password: String) {

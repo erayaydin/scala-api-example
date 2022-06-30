@@ -5,6 +5,7 @@ import akka.http.scaladsl.Http
 import akka.stream.Materializer
 import in.yayd.era.api_example.database.{DatabaseConnector, MigrationManager, StorageRunner}
 import in.yayd.era.api_example.http.HttpRoute
+import in.yayd.era.api_example.users._
 
 import scala.concurrent.ExecutionContext
 import scala.io.StdIn
@@ -23,8 +24,12 @@ object Boot extends App {
   migrationManager.migrate().foreach(migration => println(s"Migrated $migration"))
 
   val storageRunner = new StorageRunner(databaseConnector)
+  val userStorage   = new UserStorage()
 
-  val httpRoute = new HttpRoute(config.secretKey)
+  val userService = new UserService(storageRunner, userStorage, config.secretKey)
+  val userRoute = new UserRoute(config.secretKey, userService)
+
+  val httpRoute = new HttpRoute(userRoute, config.secretKey)
 
   val binding = Http()
     .newServerAt(config.http.host, config.http.port)
